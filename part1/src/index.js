@@ -1,64 +1,41 @@
-import React from 'react';
+import React,{useState} from 'react';
 import ReactDOM from 'react-dom';
-const Header=(props)=>{
+const Button=(props)=>{
   return(
     <div>
-      <h1>
-        {props.course.name}
-      </h1>
-    </div>
-  )
-}
-const Part=(props)=>{
-  return(
-    <div>
-      <p>
-        {props.name} {props.exercise}
-      </p>
+      <button onClick={props.handleclick}>{props.text}</button>
     </div>
   )
 }
 const Content=(props)=>{
   return(
-  <div>
-    <Part name={props.part.parts[0].name} exercise={props.part.parts[0].exercise}/>
-    <Part name={props.part.parts[1].name} exercise={props.part.parts[1].exercise}/>
-    <Part name={props.part.parts[2].name} exercise={props.part.parts[2].exercise}/>
-  </div>
-  )
-}
-const Total=(props)=>{
-  return(
     <div>
-      <p>
-        Total Number of Exercises {props.sum.parts[0].exercises+props.sum.parts[1].exercises+props.sum.parts[2].exercises}
-      </p>
-    </div>
+  <p>{props.text} {props.num}</p></div>
   )
 }
 const App = () => {
-  const course = {
-    name:'Half Stack application development',
-    parts:[
-    {
-    name:'Fundamentals of React',
-    exercises:10
-  },
-  {
-    name:'Using props to pass data',
-    exercises: 7
-  },
-  {
-    name:'State of a component',
-  exercises: 14}
-  ]
-}
-
+  const [good,setgood]=useState(0)
+  const [neutral,setneutral]=useState(0)
+  const [bad,setbad]=useState(0)
+  const goodclick=()=>{
+    setgood(good+1)
+  }
+  const neutralclick=()=>{
+    setneutral(neutral+1)
+  }
+  const badclick=()=>{
+    setbad(bad+1)
+  }
   return (
     <div>
-      <Header course={course}/>
-      <Content part={course}/>
-      <Total sum={course}/>
+      <h1>Give Feedback</h1>
+      <Button text="good" handleclick={goodclick} />
+      <Button text="neutral" handleclick={neutralclick} />
+      <Button text="bad" handleclick={badclick} />
+      <h1>Statistics</h1>
+      <Content text="good" num={good}/>
+      <Content text="neutral" num={neutral}/>
+      <Content text="bad" num={bad}/>
     </div>
   )
 }
