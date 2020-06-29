@@ -7,7 +7,7 @@ const Button=(props)=>{
     </div>
   )
 }
-const Content=(props)=>{
+const Statistics=(props)=>{
   return(
     <div>
   <p>{props.text} {props.num}</p></div>
@@ -33,12 +33,12 @@ const App = () => {
       <Button text="neutral" handleclick={neutralclick} />
       <Button text="bad" handleclick={badclick} />
       <h1>Statistics</h1>
-      <Content text="good" num={good}/>
-      <Content text="neutral" num={neutral}/>
-      <Content text="bad" num={bad}/>
-      <Content text="all" num={good+neutral+bad}/>
-      <Content text="average" num={(good-bad)/(good+bad+neutral)}/>
-      <Content text="percentage" num={(good/(good+neutral+bad))*100}/>
+      <Statistics text="good" num={good}/>
+      <Statistics text="neutral" num={neutral}/>
+      <Statistics text="bad" num={bad}/>
+      <Statistics text="all" num={good+neutral+bad}/>
+      <Statistics text="average" num={(good-bad)/(good+bad+neutral)}/>
+      <Statistics text="percentage" num={(good/(good+neutral+bad))*100}/>
     </div>
   )
 }
