@@ -10,21 +10,28 @@ const App=()=>{
     'Premature optimization is the root of all evil.',
     'Debugging is twice as hard as writing the code in the first place. Therefore, if you write the code as cleverly as possible, you are, by definition, not smart enough to debug it.'
   ]
-  const [num,setnum]=useState(0);
+  const [num,setnum]=useState(0)
+  const [vote,setvote]=useState([0,0,0,0,0,0])
   const randomquote=()=>{
    setnum(Math.floor(Math.random() * anecdotes.length))
   }
+  const votequote=(n)=>{
+    const copy=[...vote]
+    copy[n]+=1
+    setvote(copy)
+  }
   return(
     <div>
-    <button onClick={randomquote}>Next</button>
     <p>{anecdotes[num]}</p>
+    <p>Has {vote[num]} votes</p>
+    <button onClick={()=>votequote(num)}>Vote</button>
+    <button onClick={randomquote}>Next</button>
     </div>
   )
 }
 ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
+  
+    <App />,
   document.getElementById('root')
 );
 
