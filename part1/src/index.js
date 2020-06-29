@@ -46,12 +46,14 @@ const App = () => {
       <Button text="neutral" handleclick={neutralclick} />
       <Button text="bad" handleclick={badclick} />
       <h1>Statistics</h1>
-      <Statistics text="good" num={good}/>
-      <Statistics text="neutral" num={neutral}/>
-      <Statistics text="bad" num={bad}/>
-      <Statistics text="all" num={good+neutral+bad}/>
-      <Statistics text="average" num={(good-bad)/(good+bad+neutral)}/>
-      <Statistics text="percentage" num={(good/(good+neutral+bad))*100}/>
+      <table>
+     <tr> <Statistics text="good" num={good}/></tr>
+     <tr> <Statistics text="neutral" num={neutral}/></tr>
+     <tr> <Statistics text="bad" num={bad}/></tr>
+      <tr><Statistics text="all" num={good+neutral+bad}/></tr>
+      <tr><Statistics text="average" num={(good-bad)/(good+bad+neutral)}/></tr>
+      <tr><Statistics text="percentage" num={(good/(good+neutral+bad))*100+'%'}/></tr>
+      </table>
     </div>
   )
   }
