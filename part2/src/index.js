@@ -7,8 +7,19 @@ const Course=({course})=>{
       <h1>{course.name}</h1>
       <ul>
         {course.parts.map(part=>
-          <li key={part.id}>{part.name}</li>)}
+          <li key={part.id}>{part.name} {part.exercises}</li>)}
       </ul>
+    </div>
+  )
+}
+const Total=({course})=>{
+  let total=0
+   course.parts.forEach(element => {
+    total+=element.exercises
+  });
+  return(
+    <div>
+      <p>total number of exercises are {total}</p>
     </div>
   )
 }
@@ -35,12 +46,14 @@ const App = () => {
     ]
   }
 
-  return <Course course={course} />
+ return (
+   <div> 
+     <Course course={course} />
+     <Total course={course}/>
+   </div>)
 }
 
 ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
+    <App />,
   document.getElementById('root')
 );
