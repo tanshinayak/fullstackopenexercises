@@ -13,13 +13,17 @@ const Course=({course})=>{
   )
 }
 const Total=({course})=>{
-  let total=0
+  let total=0,arr=0
    course.parts.forEach(element => {
     total+=element.exercises
   });
+  arr=course.parts.reduce(function(a, b){
+    return a + b.exercises;
+}, 0)
   return(
     <div>
       <p>total number of exercises are {total}</p>
+      <p>sum {arr}</p>
     </div>
   )
 }
