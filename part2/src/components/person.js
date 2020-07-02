@@ -4,7 +4,7 @@ const Person=({person})=>{
     return(
       <div>
         {person.map(person=>
-        <p>{person.name}</p>)}
+        <p>{person.name} - {person.number}</p>)}
       </div>
     )
   }
