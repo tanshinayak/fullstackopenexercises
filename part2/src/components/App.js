@@ -6,12 +6,12 @@ const App = () => {
   ]) 
   const [ newName, setNewName ] = useState('')
   const [ newNumber, setNewNumber ] = useState('')
+  const [search,setsearch]=useState("")
+  const [filteredPersons,setfilteredPersons]=useState([])
   const handleNewName=(event)=>{
-      console.log(event.target.value)
       setNewName(event.target.value)
   }
   const handleNewNumber=(event)=>{
-    console.log(event.target.value)
     setNewNumber(event.target.value)
 }
   const addperson=(event)=>{
@@ -20,18 +20,31 @@ const App = () => {
           name: newName,
           number: newNumber
       }
-      if(persons.indexOf(newPerson)===false)
-      {setPersons(persons.concat(newPerson))
-      setNewName('')}
+      console.log(persons)
+      if(persons.some(person=>person.name===newName))
+      {alert(`${newName} is already added to phonebook`)
+    }
       else 
       {
-          alert(`${newName} is already added to phonebook`)
+        setPersons(persons.concat(newPerson))
+        setNewName('')
+      setNewNumber('')
       }
+  }
+  const handleSearch=(event)=>{
+   setsearch(event.target.value)
+   setfilteredPersons(
+    persons.filter((person) =>
+      person.name.toLowerCase().startsWith(event.target.value.toLowerCase())
+    )
+  )
   }
   return (
     <div>
       <h2>Phonebook</h2>
+      Filter <input type="text" value={search} onChange={handleSearch}/>
       <form onSubmit={addperson}>
+        <h2>Add New Person</h2>
         <div>
           name: <input value={newName} onChange={handleNewName}/>
         </div>
@@ -40,9 +53,13 @@ const App = () => {
           <button type="submit">Add</button>
         </div>
       </form>
-      <h2>Numbers</h2>
       <ul>
+      <h2>Numbers</h2>
         <Person key={persons.name} person={persons}/>
+      </ul>
+      <ul>
+        <h2>Filtered Persons</h2>
+        <Person key={filteredPersons.name} person={filteredPersons}/>
       </ul>
     </div>
   )
