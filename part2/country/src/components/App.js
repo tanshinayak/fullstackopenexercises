@@ -10,7 +10,7 @@ const handleSearch=(event)=>{
 useEffect(()=>{
     axios.get('https://restcountries.eu/rest/v2/all')
     .then(response=>setCountries(response.data))
-})
+},[])
 useEffect(()=>{
     if(search==='')
     {
@@ -25,38 +25,49 @@ useEffect(()=>{
 return (
     <div>
     find the countries <input type="text" value={search} onChange={handleSearch}/>
-   <ShowCountry country={filter}></ShowCountry>
+   <HandleCountry list={filter}></HandleCountry>
     </div>
 )
 }
 const ShowCountry=({country})=>{
-    if(country.length>10)
+    return(
+    <div>
+        {console.log(country)}
+            <h1>{country.name}</h1>
+            <p>Capital : {country.capital}</p>
+            <p>Population : {country.population}</p>
+            <h3>Languages</h3>
+            {country.languages.map((language) => (
+        <li>{language.name}</li>
+      ))}
+            <br />
+            <img src={country.flag} alt="Flag" width="100px" />
+          </div>
+    )
+}
+const handleShow=(c)=>{
+    return (
+        <ShowCountry country={c}></ShowCountry>
+    )
+}
+const HandleCountry=({list})=>{
+    if(list.length>10)
     {
         return(
             <p>Too many matches, specify anouther filter</p>
         )
     }
-    else if(country.length<10&&country.length>1)
+    else if(list.length<10&&list.length>1)
     {
         return(
             <ul>
-                {country.map(c=><li>{c.name}</li>)}
+                {list.map(c=><li>{c.name}<button onClick={()=>handleShow(c)}>Show</button></li>)}
             </ul>
         )
     }
-    else if(country.length===1){
+    else if(list.length===1){
         return(
-            <div>
-            <h1>{country[0].name}</h1>
-            <p>Capital : {country[0].capital}</p>
-            <p>Population : {country[0].population}</p>
-            <h3>Languages</h3>
-            {country[0].languages.map((language) => (
-              <li>{language.name}</li>
-            ))}
-            <br />
-            <img src={country[0].flag} alt="Flag" width="100px" />
-          </div>
+           <ShowCountry country={list[0]}></ShowCountry>
         )
     }
     else{
