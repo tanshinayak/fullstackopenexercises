@@ -7,6 +7,11 @@ const [countries,setCountries]=useState([])
 const handleSearch=(event)=>{
     setSearch(event.target.value)
 }
+const handleShow=(c)=>{
+    return (
+       setFilter([c])
+    )
+}
 useEffect(()=>{
     axios.get('https://restcountries.eu/rest/v2/all')
     .then(response=>setCountries(response.data))
@@ -42,12 +47,16 @@ const ShowCountry=({country})=>{
       ))}
             <br />
             <img src={country.flag} alt="Flag" width="100px" />
+            <h3>Weather Of {country.capital}</h3>
+            {useEffect(()=>{axios.get('http://api.weatherstack.com/current?access_key=ec04f8fdac25ddf878d0751d17c8bb72&query=delhi')
+    .then(response=>{console.log(response.data.current.temperature)
+    return(
+        <div>
+        {console.log(response.data.current.temperature)}
+    <p>{response.data.current.temperature} degree celsius</p></div>
+    )})
+},[])}
           </div>
-    )
-}
-const handleShow=(c)=>{
-    return (
-        <ShowCountry country={c}></ShowCountry>
     )
 }
 const HandleCountry=({list})=>{
