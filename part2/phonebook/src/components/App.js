@@ -23,9 +23,13 @@ const App = () => {
 }
   const addperson=(event)=>{
       event.preventDefault()
+      let maxid=persons.map((person)=>person.id).reduce(function(a, b) {
+        return Math.max(a, b);
+      });
       const newPerson={
           name: newName,
-          number: newNumber
+          number: newNumber,
+          id: maxid+1
       }
       console.log(persons)
       if(persons.some(person=>person.name===newName))
@@ -33,9 +37,13 @@ const App = () => {
     }
       else 
       {
-        setPersons(persons.concat(newPerson))
-        setNewName('')
-      setNewNumber('')
+          axios.post("http://localhost:3001/persons",newPerson)
+          .then((response)=>{console.log(`${response} added`)
+          setPersons(persons.concat(response.data))
+          setNewName('')
+          setNewNumber('')
+        })
+          .catch(err=>console.log(err))
       }
   }
   const handleSearch=(event)=>{

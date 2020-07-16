@@ -4,6 +4,7 @@ const App=()=>{
 const [search,setSearch]=useState('')
 const [filter,setFilter]=useState([])
 const [countries,setCountries]=useState([])
+const[waether,setWeather]=useState(0)
 const handleSearch=(event)=>{
     setSearch(event.target.value)
 }
@@ -11,6 +12,16 @@ const handleShow=(c)=>{
     return (
        setFilter([c])
     )
+}
+const handleWeather=()=>{
+    useEffect(()=>{axios.get('http://api.weatherstack.com/current?access_key=ec04f8fdac25ddf878d0751d17c8bb72&query=delhi')
+    .then(response=>{console.log(response.data.current.temperature)
+    return(
+        <div>
+        {console.log(response.data.current.temperature)}
+    <p>{response.data.current.temperature} degree celsius</p></div>
+    )})
+},[])
 }
 useEffect(()=>{
     axios.get('https://restcountries.eu/rest/v2/all')
@@ -30,11 +41,11 @@ useEffect(()=>{
 return (
     <div>
     find the countries <input type="text" value={search} onChange={handleSearch}/>
-   <HandleCountry list={filter}></HandleCountry>
+   <HandleCountry list={filter} handleShow={handleShow} handleWeather={handleWeather}></HandleCountry>
     </div>
 )
 }
-const ShowCountry=({country})=>{
+const ShowCountry=({country,handleWeather})=>{
     return(
     <div>
         {console.log(country)}
@@ -48,18 +59,11 @@ const ShowCountry=({country})=>{
             <br />
             <img src={country.flag} alt="Flag" width="100px" />
             <h3>Weather Of {country.capital}</h3>
-            {useEffect(()=>{axios.get('http://api.weatherstack.com/current?access_key=ec04f8fdac25ddf878d0751d17c8bb72&query=delhi')
-    .then(response=>{console.log(response.data.current.temperature)
-    return(
-        <div>
-        {console.log(response.data.current.temperature)}
-    <p>{response.data.current.temperature} degree celsius</p></div>
-    )})
-},[])}
+            {handleWeather}
           </div>
     )
 }
-const HandleCountry=({list})=>{
+const HandleCountry=({list,handleShow,handleWeather})=>{
     if(list.length>10)
     {
         return(
@@ -70,13 +74,13 @@ const HandleCountry=({list})=>{
     {
         return(
             <ul>
-                {list.map(c=><li>{c.name}<button onClick={()=>handleShow(c)}>Show</button></li>)}
+                {list.map(c=><li>{c.name}<button onClick={()=>{handleShow(c)}}>Show</button></li>)}
             </ul>
         )
     }
     else if(list.length===1){
         return(
-           <ShowCountry country={list[0]}></ShowCountry>
+           <ShowCountry country={list[0]} handleWeather={handleWeather}></ShowCountry>
         )
     }
     else{
@@ -85,5 +89,4 @@ const HandleCountry=({list})=>{
         )
     }
 }
-
 export default App
