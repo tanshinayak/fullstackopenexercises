@@ -1,25 +1,37 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState,useEffect } from 'react'
 import Person from './person'
 import axios from 'axios'
 const App = () => {
-  const [ persons, setPersons ] = useState([
-    { name: 'Arto Hellas',number:'1234567890' } 
-  ]) 
+  const [ persons, setPersons ] = useState([{name:'Ishita',number:'1234567'}]) 
   const [ newName, setNewName ] = useState('')
   const [ newNumber, setNewNumber ] = useState('')
   const [search,setsearch]=useState("")
   const [filteredPersons,setfilteredPersons]=useState([])
-  useEffect(()=>{
+  useEffect(() => {
     axios.get("http://localhost:3001/persons")
-    .then(response=>{
-      setPersons(response.data)
-    })
-  },[])
+      .then(response => {setPersons(response.data)})
+      .catch(err=>console.log(err))
+  }, [persons])
+
   const handleNewName=(event)=>{
       setNewName(event.target.value)
   }
   const handleNewNumber=(event)=>{
     setNewNumber(event.target.value)
+}
+const handleDelete=(person)=>{
+  let ok=window.confirm(`Delete ${person.name}`)
+  if(ok)
+  {
+  axios({
+    method: 'DELETE',
+    url: 'http://localhost:3001/persons/' + person.id
+  })
+  .then(res => {
+    setPersons(res.data);
+})
+.catch(err=>console.log(err))
+}
 }
   const addperson=(event)=>{
       event.preventDefault()
@@ -37,7 +49,7 @@ const App = () => {
     }
       else 
       {
-          axios.post("http://localhost:3001/persons",newPerson)
+          axios.post('http://localhost:3001/persons',newPerson)
           .then((response)=>{console.log(`${response} added`)
           setPersons(persons.concat(response.data))
           setNewName('')
@@ -70,11 +82,11 @@ const App = () => {
       </form>
       <ul>
       <h2>Numbers</h2>
-        <Person key={persons.name} person={persons}/>
+        <Person key={persons.name} person={persons} delete={handleDelete}/>
       </ul>
       <ul>
         <h2>Filtered Persons</h2>
-        <Person key={filteredPersons.name} person={filteredPersons}/>
+        <Person key={filteredPersons.name} person={filteredPersons} delete={handleDelete}/>
       </ul>
     </div>
   )
