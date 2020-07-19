@@ -1,11 +1,13 @@
 import React, { useState,useEffect } from 'react'
 import Person from './person'
 import axios from 'axios'
+import "./App.css"
 const App = () => {
   const [ persons, setPersons ] = useState([{name:'Ishita',number:'1234567'}]) 
   const [ newName, setNewName ] = useState('')
   const [ newNumber, setNewNumber ] = useState('')
   const [search,setsearch]=useState("")
+  const [message,setmessage]=useState("")
   const [filteredPersons,setfilteredPersons]=useState([])
   useEffect(() => {
     axios.get("http://localhost:3001/persons")
@@ -65,6 +67,7 @@ const handleDelete=(person)=>{
           setPersons(persons.concat(response.data))
           setNewName('')
           setNewNumber('')
+          setmessage(`${newName} added`)
         })
           .catch(err=>console.log(err))
       }
@@ -80,6 +83,7 @@ const handleDelete=(person)=>{
   return (
     <div>
       <h2>Phonebook</h2>
+      <Notification message={message}/>
       Filter <input type="text" value={search} onChange={handleSearch}/>
       <form onSubmit={addperson}>
         <h2>Add New Person</h2>
@@ -100,6 +104,18 @@ const handleDelete=(person)=>{
         <Person key={filteredPersons.name} person={filteredPersons} delete={handleDelete}/>
       </ul>
     </div>
+  )
+}
+const Notification = ({ message }) => {
+  if (message === null) {
+    return null
+  }
+
+  return (
+      
+        <div className="notification">{message}</div>
+      
+    
   )
 }
 
