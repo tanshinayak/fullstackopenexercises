@@ -11,7 +11,7 @@ const App = () => {
     axios.get("http://localhost:3001/persons")
       .then(response => {setPersons(response.data)})
       .catch(err=>console.log(err))
-  }, [persons])
+  }, [])
 
   const handleNewName=(event)=>{
       setNewName(event.target.value)
@@ -45,7 +45,18 @@ const handleDelete=(person)=>{
       }
       console.log(persons)
       if(persons.some(person=>person.name===newName))
-      {alert(`${newName} is already added to phonebook`)
+      {let con=window.confirm(`${newName} is already added to phonebook , replace the old number with the new one?`)
+      if(con){
+        axios({
+          method: 'PUT',
+          url: 'http://localhost:3001/persons/' + newName,
+          data:newPerson
+        })
+        .then(res => {
+          setPersons(res.data);
+      })
+      .catch(err=>console.log(err))
+      }
     }
       else 
       {
