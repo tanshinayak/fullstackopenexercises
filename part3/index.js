@@ -26,4 +26,9 @@ app.get('/api/notes',(req,res)=>{
   console.log(note)
     res.json(notes);
 })
+app.get('/info',(req,res)=>{
+    let time=new Date();
+res.send(`<div><p>Phonebook has info for ${notes.length} people</p>
+<p>${time}</p></div>`);
+})
 app.listen(3001);
