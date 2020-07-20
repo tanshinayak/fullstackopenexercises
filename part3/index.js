@@ -21,6 +21,20 @@ let notes = [
       important: true
     }
   ]
+  app.get("/api/persons",(req,res)=>{
+    const note = req.body
+    console.log(note)
+      res.json(notes);
+  })
+  app.post('/api/persons/:content',(req,res)=>{
+    const name=req.params.content;
+    const id=(Math.random()*10)/10;
+    const date=new Date();
+    const newNote={
+        name,id,date
+    };
+    notes=notes.concat(newNote);
+})
 app.get('/api/notes',(req,res)=>{
     const note = req.body
   console.log(note)
