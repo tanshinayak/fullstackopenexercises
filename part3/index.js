@@ -37,6 +37,11 @@ app.get('/api/notes/:id',(req,res)=>{
         res.status(404).end();
     }
 })
+app.delete('/api/notes/:id',(req,res)=>{
+    const id =req.params.id;
+    notes=notes.filter(note=>note.id!==id)
+    res.status(204).end()
+})
 app.get('/info',(req,res)=>{
     let time=new Date();
 res.send(`<div><p>Phonebook has info for ${notes.length} people</p>
