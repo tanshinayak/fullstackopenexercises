@@ -26,6 +26,17 @@ app.get('/api/notes',(req,res)=>{
   console.log(note)
     res.json(notes);
 })
+app.get('/api/notes/:id',(req,res)=>{
+    const id = Number(req.params.id);
+    const note = notes.find(note => note.id === id)
+    if(note)
+  {console.log(note)
+    res.json(notes);}
+    else 
+    {
+        res.status(404).end();
+    }
+})
 app.get('/info',(req,res)=>{
     let time=new Date();
 res.send(`<div><p>Phonebook has info for ${notes.length} people</p>
